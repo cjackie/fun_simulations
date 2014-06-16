@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "underscore": "*",
+    "raf": "*"
+  },
+  "engine": "node 0.10.*"
+}
