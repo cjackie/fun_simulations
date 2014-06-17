@@ -1,4 +1,3 @@
-alert('hi');
 var _ = require('underscore');
 var raf = require('raf');
 var Circle = require('./circle');
@@ -13,15 +12,13 @@ canvas.setAttribute('height', HEIGHT);
 canvas.setAttribute('width', WIDTH);
 var context = canvas.getContext('2d');
 
-context.height = HEIGHT;
-context.width = WIDTH;
 context.fillStyle = BACKGROUND_COLOR;
 context.fillRect(0, 0, WIDTH, HEIGHT);
 
 //prepare circles
-var manager = new CircleManager(context);
+var manager = new CircleManager(canvas);
 _.each(_.range(10), function createCircles() {
-    manager.add(new Circle(context));
+    manager.add(new Circle(canvas));
 });
 
 //simulation loop

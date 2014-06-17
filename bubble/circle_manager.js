@@ -1,8 +1,9 @@
 var _ = require('underscore');
 
-var Manager = function(context) {
+var Manager = function(canvas) {
     this.circles  = [];
-    this.context = context;
+    this.context = canvas.getContext('2d');
+    this.canvas = canvas;
 };
 
 
@@ -24,15 +25,15 @@ Manager.prototype.nextFrame = function() {
 Manager.prototype._check = function() {
     var self = this;
     _.each(this.circles, function(circle) {
-        if (circle.pos.x < 0 || circle.pos.x > self.context.width)
+        if (circle.pos.x < 0 || circle.pos.x > self.canvas.width)
             circle.speed.x *= -1;
-        if (circle.pos.y < 0 || circle.pos.y > self.context.height)
+        if (circle.pos.y < 0 || circle.pos.y > self.canvas.height)
             circle.speed.y *= -1;
     });
 };
 
 Manager.prototype._clear = function() {
-    this.context.clearRect(0, 0, this.context.width, this.context.height);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
 module.exports = Manager;

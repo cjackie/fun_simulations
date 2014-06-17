@@ -1,9 +1,10 @@
-var Circle = function(context) {
-    this.context = context;
+var Circle = function(canvas) {
+    this.context = canvas.getContext('2d');
+    this.canvas = canvas;
     
     this.pos = {};
-    this.pos.x = context.width * Math.random();
-    this.pos.y = context.height * Math.random();
+    this.pos.x = canvas.width * Math.random();
+    this.pos.y = canvas.height * Math.random();
 
     this.speed = {};
     this.speed.x = 10 * Math.random();
