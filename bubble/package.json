@@ -1,7 +1,12 @@
 {
+  "name": "bubble",
+  "private": true,
+  "version": "0.0.1",
+  
   "dependencies": {
     "underscore": "*",
     "raf": "*"
   },
+  
   "engine": "node 0.10.*"
 }
