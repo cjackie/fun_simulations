@@ -27,9 +27,13 @@ _.each(_.range(10), function createCircles() {
 manager.addPlayer(new Player(canvas, 100));
 
 //simulation loop
-raf(function tick(){
-    manager.nextFrame();
-    raf(tick);
+var loop = raf(function tick(){
+  if (manager.colided()) {
+    manager.gameover();
+    return;
+  }
+  manager.nextFrame();
+  raf(tick);
 });
 
 

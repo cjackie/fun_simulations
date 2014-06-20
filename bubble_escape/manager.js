@@ -7,16 +7,13 @@ var Manager = function(canvas) {
   this.canvas = canvas;
 };
 
-
 Manager.prototype.addCircle = function(circle) {
   this.circles.push(circle);
 };
 
-
 Manager.prototype.addPlayer = function(player) {
   this.player = player;
 };
-
 
 Manager.prototype.nextFrame = function() {
   this._clear();
@@ -28,6 +25,25 @@ Manager.prototype.nextFrame = function() {
   this.player.draw();
 };
 
+//check if the player touches a circle
+Manager.prototype.colided = function() {
+  var circle, deltaX, deltaY, d;
+  for (var i = 0; i < this.circles.length; i++) {
+    circle = this.circles[i];
+    deltaX = circle.pos.x - this.player.pos.x;
+    deltaY = circle.pos.y - this.player.pos.y;
+    d = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    if (d < (this.player.radius + circle.radius) ) return true;
+  }
+  return false;
+};
+
+Manager.prototype.gameover = function() {
+  this._clear();
+  this.context.fillStyle = 'black';
+  this.context.font = '20px monospace';
+  this.context.fillText ("game over", this.canvas.width/2, this.canvas.height/2);
+};
 
 Manager.prototype._check = function() {
   var self = this;
@@ -39,11 +55,9 @@ Manager.prototype._check = function() {
   });
 };
 
-
 Manager.prototype._clear = function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
-
 
 module.exports = Manager;
     

@@ -7,6 +7,7 @@ var Player = function(canvas, health) {
   this.pos = {};
   this.pos.x = canvas.width / 2.0;
   this.pos.y = canvas.height / 2.0;
+  this.radius = 15;
 
   var self = this;
   this.canvas.addEventListener('mousemove', function(event) {
@@ -27,7 +28,7 @@ Player.prototype.draw = function(){
   
   this.context.fillStyle = '#4D24A4';
   this.context.beginPath();
-  this.context.arc(this.pos.x, this.pos.y, 15, 0, Math.PI*2, true);
+  this.context.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI*2, true);
   this.context.fill();
 };
 
