@@ -1,0 +1,13 @@
+{
+  "name": "bubble-with-player",
+  "private": true,
+  "version": "0.0.1",
+  
+  "dependencies": {
+    "underscore": "*",
+    "raf": "*",
+    "socket.io": "*"
+  },
+  
+  "engine": "node 0.10.*"
+}
