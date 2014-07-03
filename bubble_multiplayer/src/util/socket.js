@@ -8,7 +8,7 @@ var Socket = function() {
   var self = this;
   
   this.socket.on('peerFound', function() {
-    self.waiting =false;
+    self.waiting = false;
   });
 };
 
@@ -16,7 +16,7 @@ Socket.prototype.attachToOpponent = function(opponent) {
   //scope
   var self = this;
   
-  function setupConnetion() {
+  function setupConnection() {
     opponent.waiting = false;
 
     //get data for opponent
@@ -24,19 +24,27 @@ Socket.prototype.attachToOpponent = function(opponent) {
       opponent.player = data.player;
       opponent.circles = data.circles;
     });
+
+    self.socket('lost', function(data) {
+      if (data) {
+        opponent.gameover = true;
+        opponent.win = false;
+      }
+    });
   }
   
   if (self.waiting) {
     //waiting for connection
     var loop = setinterval(function() {
       if (!self.waiting) {
-        setupConnetion();
+        setupConnection();
         clearInterval(loop);
       }
     }, 500);
   } else {
-    setupConnetion();
+    setupConnection();
   }
+  
 };
 
 Socket.prototype.attachToLocal = function(manager) {
@@ -44,6 +52,7 @@ Socket.prototype.attachToLocal = function(manager) {
   var self = this;
 
   function setupConnection() {
+    manager.waiting = false;
     var nextFrame = manager.nextFrame;
 
     manager.nextFrame = function() {
@@ -71,6 +80,28 @@ Socket.prototype.attachToLocal = function(manager) {
       //call original nextFrame
       nextFrame.call(manager);
     };
+
+
+    var colided = manager._colided;
+    manager._colided = function() {
+      if (colided.call(manager)) {
+        self.socket.emit('lost', {lost:'yes'});
+        return true;
+      }
+      return false;
+    };
+  }
+
+  if (self.waiting) {
+    //waiting for connection
+    var loop = setinterval(function() {
+      if (!self.waiting) {
+        setupConnection();
+        clearInterval(loop);
+      }
+    }, 500);
+  } else {
+    setupConnection();
   }
 };
 

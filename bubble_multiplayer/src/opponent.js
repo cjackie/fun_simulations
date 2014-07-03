@@ -6,6 +6,8 @@ var Opponent = function(canvas) {
 
   this.circles = [];
   this.gameover = false;
+  this.win = false;
+  this.ended = false;
   this.waiting = true;
   this.player = null;
 };
@@ -50,9 +52,17 @@ Opponent.prototype._waiting = function() {
 };
 
 Opponent.prototype._gameover = function() {
-  this._clear();
-  this.context.fillStyle = 'black';
-  this.context.font = '20px monospace';
-  this.context.fillText ("game over", this.canvas.width/2, this.canvas.height/2);
+  if (this.win) {
+    this._clear();
+    this.context.fillStyle = 'black';
+    this.context.font = '20px monospace';
+    this.context.fillText ("opponent won", this.canvas.width/2, this.canvas.height/2);
+  } else {
+    this._clear();
+    this.context.fillStyle = 'black';
+    this.context.font = '20px monospace';
+    this.context.fillText ("opponent lost", this.canvas.width/2, this.canvas.height/2);
+  }
+  this.ended = true;
 };
 

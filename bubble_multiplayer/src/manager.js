@@ -5,7 +5,8 @@ var Manager = function(canvas) {
   this.circles  = [];
   this.context = canvas.getContext('2d');
   this.canvas = canvas;
-  
+  this.ended = false;
+  this.win = false;
   this.waiting = true;
   this.gameover = false;
 };
@@ -23,8 +24,8 @@ Manager.prototype.nextFrame = function() {
     this._waiting();
     return;
   }
-  
-  if (this.gameover) {
+
+  if (this.colided() || this.gameover) {
     this._gameover();
     return;
   }
@@ -39,7 +40,7 @@ Manager.prototype.nextFrame = function() {
 };
 
 //check if the player touches a circle
-Manager.prototype.colided = function() {
+Manager.prototype._colided = function() {
   var circle, deltaX, deltaY, d;
   for (var i = 0; i < this.circles.length; i++) {
     circle = this.circles[i];
@@ -48,17 +49,29 @@ Manager.prototype.colided = function() {
     d = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     if (d < (this.player.radius + circle.radius) ) {
       this.gameover = true;
+      this.win = false;
       return true;
+
+
     }
   }
   return false;
 };
 
 Manager.prototype._gameover = function() {
-  this._clear();
-  this.context.fillStyle = 'black';
-  this.context.font = '20px monospace';
-  this.context.fillText ("game over", this.canvas.width/2, this.canvas.height/2);
+  if (!this.win) {
+    this._clear();
+    this.context.fillStyle = 'black';
+    this.context.font = '20px monospace';
+    this.context.fillText ("you lost", this.canvas.width/2, this.canvas.height/2);
+  } else {
+    this._clear();
+    this.context.fillStyle = 'black';
+    this.context.font = '20px monospace';
+    this.context.fillText ("you won", this.canvas.width/2, this.canvas.height/2);
+  }
+
+  this.ended = true;
 };
 
 Manager.prototype._check = function() {
