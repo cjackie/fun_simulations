@@ -6,7 +6,6 @@ var Manager = function(canvas) {
   this.context = canvas.getContext('2d');
   this.canvas = canvas;
   
-  this.fns = [];
   this.waiting = true;
   this.gameover = false;
 };
@@ -20,8 +19,6 @@ Manager.prototype.addPlayer = function(player) {
 };
 
 Manager.prototype.nextFrame = function() {
-  this._callBeforeFrame();
-  
   if (this.waiting) {
     this._waiting();
     return;
@@ -55,17 +52,6 @@ Manager.prototype.colided = function() {
     }
   }
   return false;
-};
-
-//customize functions call before nextFrame
-Manager.prototype.beforeFrame = function(fn) {
-  this.fns.push(fn);
-};
-
-Manager.prototype._callBeforeFrame = function() {
-  for (var i = 0; i < this.fns.length; i++) {
-    this.fns[i]();
-  }
 };
 
 Manager.prototype._gameover = function() {
